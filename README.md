@@ -85,6 +85,7 @@ If you want to use **[dyClamp](https://github.com/christianrickert/dyClamp/)** i
 - Arduino      
 - Adafruit SAMD Core
 - TinyUSB library
+- elapsedMillis library for timekeeping
 
 Using the **[OpenDynamicClamp 1.2.1 hardware](https://github.com/nsdesai/dynamic_clamp/tree/master/open-dynamic-clamp/odc-1.2)** you need to upload the dyClamp sketch from this repo, as it can handle the presence of a SAMD51 MCU during compilation. Also make sure to calibrate the output with the calibration sketch using the gain and offset pots. 
 
@@ -94,6 +95,10 @@ In the upload, you need to toggle
  - "USB" TinyUSB
 
 Especially the TinyUSB makes the system link much better with the pyClamp interface. In my testing, the cycle time bottoms out at 30µs. With the current code, no stronger optimization or ADC clock raise makes this run faster. Please feel free to go wild on the optimization of this code - maybe we can go down to 10µs?
+
+**DONE:** The main tweaks so far are the overclocking of the chip, overclocking the ADC and implementing a hardware oversampling function. This enables faster processing and less noisy measurements. 
+
+**TO-Do:** To cut cycle times more, a lookup table for the conductances could be used that is generated at the start of the experiment, thereby making it obsolete to calculate. The next step is to add more conductances and make them easier to implement by using only software inputs and omiting the software re-flash.
 
 ## Acknowledgements
 
