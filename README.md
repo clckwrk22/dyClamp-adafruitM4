@@ -80,29 +80,28 @@ In addition to the serial communication tweaks mentioned above, **[dyClamp](http
 
 ## Deployment & Optimization
 
-If you want to use **[dyClamp](https://github.com/christianrickert/dyClamp/)** in your dynamic clamp setup, you'll need recent versions of [Arduino](https://www.arduino.cc/en/Main/Software) and [Teensyduino](https://www.pjrc.com/teensy/td_download.html) to compile and upload the present sketch to your Teensy. These are my version recommendations:
+If you want to use **[dyClamp](https://github.com/christianrickert/dyClamp/)** in your dynamic clamp setup, you'll need recent versions of [Arduino](https://www.arduino.cc/en/Main/Software) to compile and upload the present sketch to your M4 Express.
 
-- Arduino      (>= 1.8.8)
-- Teensyduino  (>= 1.4.5)
+- Arduino      
+- Adafruit SAMD Core
+- TinyUSB library
 
-Make sure to optimize Arduino's settings and compilation parameters in order to enable the serial connection and to improve the computational performance of your dynamic clamp setup. The settings in Arduino's "Tools" menu should be set to the following values:
+Using the **[OpenDynamicClamp 1.2.1 hardware](https://github.com/nsdesai/dynamic_clamp/tree/master/open-dynamic-clamp/odc-1.2)** you need to upload the dyClamp sketch from this repo, as it can handle the presence of a SAMD51 MCU during compilation. Also make sure to calibrate the output with the calibration sketch using the gain and offset pots. 
 
-- Board:       "Teensy 3.6"
-- USB Type:    "Serial"
-- CPU Speed:   "180 MHz"
-- Optimize:    "Faster with LTO"
-- Port:        "COMx (Teensy)"
+In the upload, you need to toggle 
+ - "Overclocking" 200MHz
+ - "Optimization" Faster -O3
+ - "USB" TinyUSB
 
-Depending on the computational costs of your current simulations, **[dyClamp](https://github.com/christianrickert/dyClamp/)** usually completes its cycles of voltage readout, current calculation, and current injection ("cycle time") in 10 µs or less - while at the same time enabling serial communication from and to the controlling host.
-
-The Teensy 4.0 can be used as well: However, it lacks an onboard digital-to-analog (DAC) converter. In addition, the analog-to-digital (ADC) conversion takes up to 20 µs due to changes in the default configuration for sample averaging.
+Especially the TinyUSB makes the system link much better with the pyClamp interface. In my testing, the cycle time bottoms out at 30µs. With the current code, no stronger optimization or ADC clock raise makes this run faster. Please feel free to go wild on the optimization of this code - maybe we can go down to 10µs?
 
 ## Acknowledgements
 
 I would like to thank [Cathy Proenza](https://medschool.cuanschutz.edu/physiology/faculty/cathy-proenza-phd), [Niraj Desai](https://github.com/nsdesai), and [Andrew Scallon](https://optogeneticsandneuralengineeringcore.gitlab.io/ONECoreSite/) for providing resources and valuable feedback during the development process.
+Thanks from my side to [Christian Rickert](https://github.com/christianrickert/) for providing feedback and help during for porting the code from Teensy to the ODC 1.2.1 hardware!
 
 ## Development & Bug reports
 
 If you would like to participate in the development, please [fork this repository](https://help.github.com/articles/fork-a-repo) to your GitHub account. In order to report a problem, please create a [new issue](https://help.github.com/articles/creating-an-issue/) in this repository.
 
-Your feedback is welcome! Please contact me at [GitHub](https://github.com/christianrickert/) or via [e-mail](mailto:rc.email@icloud.com).
+Your feedback is welcome! Please contact me at [GitHub]((https://github.com/clckwrk22)) or via [e-mail](mailto:paul.j.wagner@fau.de).
